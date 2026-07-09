@@ -27,7 +27,7 @@ export default function Dashboard() {
   const [predicciones, setPredicciones] = useState({});
   const [cargando, setCargando] = useState(true);
   const [usuarioSession, setUsuarioSession] = useState(null);
-  
+
   const [perfil, setPerfil] = useState({ puntos: 0, monedas: 0, ranking: null, nombre_completo: null });
 
   // Lógica mejorada para calcular Nivel y Porcentaje de la barra de progreso
@@ -48,20 +48,20 @@ export default function Dashboard() {
     const nivelActual = niveles.find(n => puntos >= n.min && puntos <= n.max) || niveles[0];
     const indexActual = niveles.indexOf(nivelActual);
     const proximoNivel = indexActual < niveles.length - 1 ? niveles[indexActual + 1] : null;
-    
+
     const min = nivelActual.min;
     const max = proximoNivel ? proximoNivel.min : nivelActual.max;
     const ptsFaltantes = proximoNivel ? proximoNivel.min - puntos : 0;
-    
+
     // Calcula qué porcentaje del nivel actual ya has completado
     let porcentaje = 100;
     if (proximoNivel && (max - min) > 0) {
       porcentaje = ((puntos - min) / (max - min)) * 100;
     }
 
-    return { 
-      nombre: nivelActual.nombre, 
-      proximoNivel: proximoNivel?.nombre, 
+    return {
+      nombre: nivelActual.nombre,
+      proximoNivel: proximoNivel?.nombre,
       ptsFaltantes,
       porcentaje
     };
@@ -70,7 +70,7 @@ export default function Dashboard() {
   useEffect(() => {
     const cargarDatos = async () => {
       setCargando(true);
-      
+
       const { data: { session } } = await supabase.auth.getSession();
       setUsuarioSession(session);
 
@@ -80,7 +80,7 @@ export default function Dashboard() {
           .select('*')
           .eq('id', session.user.id)
           .single();
-          
+
         if (dataPerfil) {
           setPerfil(dataPerfil);
         }
@@ -114,7 +114,7 @@ export default function Dashboard() {
   const puntosUsuario = perfil.puntos || 0;
   const rankingUsuario = perfil.ranking ? `#${perfil.ranking}` : '-';
   const infoNivel = calcularNivelInfo(puntosUsuario);
-  
+
   // Nombre por defecto para igualar tu maqueta visual mientras se registran los datos reales
   const nombreMostrar = perfil.nombre_completo || 'Pablo Martin';
 
@@ -125,16 +125,16 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans pb-24">
-      
+
       {/* 1. BANNER 100% ANCHO */}
       {/* Utiliza la imagen que pusiste en la carpeta public */}
-      <div 
+      <div
         className="w-full h-64 bg-[#1a365d] bg-center bg-cover bg-no-repeat relative"
         style={{ backgroundImage: "url('/bannersemento.png')" }}
       >
         {/* Capa sutil de oscurecimiento si la foto es muy brillante */}
         <div className="absolute inset-0 bg-blue-900/20"></div>
-        
+
         {/* Botón de Iniciar Sesión (solo visible si no está logueado) */}
         {!usuarioSession && (
           <div className="absolute top-6 right-4 z-20">
@@ -147,13 +147,13 @@ export default function Dashboard() {
 
       {/* 2. TARJETA BLANCA SUPERPUESTA (Diseño idéntico a la maqueta) */}
       <div className="mx-4 -mt-20 bg-white rounded-2xl shadow-xl relative z-10 p-5 border border-gray-100">
-        
+
         {/* Header: Avatar, Nombre y Campana */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
-            <img 
-              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(nombreMostrar)}&background=EBF4FF&color=1E3A8A&rounded=true&bold=true`} 
-              alt="Avatar" 
+            <img
+              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(nombreMostrar)}&background=EBF4FF&color=1E3A8A&rounded=true&bold=true`}
+              alt="Avatar"
               className="w-12 h-12 rounded-full shadow-sm border border-blue-50"
             />
             <h2 className="text-xl font-bold text-[#1e3a8a] tracking-tight">
@@ -172,15 +172,15 @@ export default function Dashboard() {
         <div className="grid grid-cols-3 text-center mb-5">
           <div>
             <p className="text-[13px] text-gray-500 font-medium mb-1">Mi nivel</p>
-            <p className="text-[#1e3a8a] text-2xl font-black">{infoNivel.nombre}</p>
+            <p className="text-[#1e3a8a] text-lg sm:text-2xl font-black leading-tight">{infoNivel.nombre}</p>
           </div>
           <div>
             <p className="text-[13px] text-gray-500 font-medium mb-1">Puntos</p>
-            <p className="text-[#1e3a8a] text-2xl font-black">{puntosUsuario.toLocaleString('es-CL')}</p>
+            <p className="text-[#1e3a8a] text-lg sm:text-2xl font-black">{puntosUsuario.toLocaleString('es-CL')}</p>
           </div>
           <div>
             <p className="text-[13px] text-gray-500 font-medium mb-1">Ranking</p>
-            <p className="text-[#1e3a8a] text-2xl font-black">{rankingUsuario}</p>
+            <p className="text-[#1e3a8a] text-lg sm:text-2xl font-black">{rankingUsuario}</p>
           </div>
         </div>
 
@@ -189,7 +189,7 @@ export default function Dashboard() {
           <>
             <div className="flex items-center w-full mb-4">
               <div className="w-full bg-gray-200 h-2 rounded-full relative flex-1 mr-3">
-                <div 
+                <div
                   className="bg-gradient-to-r from-blue-700 to-blue-500 h-full rounded-full relative transition-all duration-1000 ease-out"
                   style={{ width: `${infoNivel.porcentaje}%` }}
                 >
@@ -209,21 +209,20 @@ export default function Dashboard() {
 
       {/* 3. Botonera Principal (Predicciones y Desafíos) */}
       <div className="px-4 mt-6 grid grid-cols-2 gap-4">
-        <Link to="/predecir" className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-row items-center justify-center gap-3 hover:shadow-md transition hover:border-blue-300 active:scale-95">
-  <img src="/ligachilena.png" alt="Liga Chilena" className="w-28 h-28 object-contain shrink-0" />
-  <div className="flex flex-col items-center">
-    <span className="font-bold text-gray-800 text-sm">Predicciones</span>
-    <span className="text-blue-700 text-xs font-bold">Primera División Liga Chilena</span>
-  </div>
-</Link>
-        {/* Reemplaza el <button> por este <Link> */}
-<Link to="/desafios" className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-row items-center justify-center gap-3 hover:shadow-md transition hover:border-blue-300 active:scale-95">
-  <span className="text-7xl shrink-0">🏆</span>
-  <div className="flex flex-col items-center">
-    <span className="font-bold text-gray-800 text-sm">Desafíos</span>
-    <span className="text-blue-700 text-xs font-bold text-center">Completa los desafíos para ganar más puntos</span>
-  </div>
-</Link>
+        <Link to="/predecir" className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-col sm:flex-row items-center justify-center gap-3 hover:shadow-md transition hover:border-blue-300 active:scale-95">
+          <img src="/ligachilena.png" alt="Liga Chilena" className="w-16 h-16 sm:w-28 sm:h-28 object-contain shrink-0" />
+          <div className="flex flex-col items-center text-center">
+            <span className="font-bold text-gray-800 text-sm">Predicciones</span>
+            <span className="text-blue-700 text-xs font-bold">Primera División Liga Chilena</span>
+          </div>
+        </Link>
+        <Link to="/desafios" className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-col sm:flex-row items-center justify-center gap-3 hover:shadow-md transition hover:border-blue-300 active:scale-95">
+          <span className="text-5xl sm:text-7xl shrink-0">🏆</span>
+          <div className="flex flex-col items-center text-center">
+            <span className="font-bold text-gray-800 text-sm">Desafíos</span>
+            <span className="text-blue-700 text-xs font-bold text-center">Completa los desafíos para ganar más puntos</span>
+          </div>
+        </Link>
       </div>
 
       {/* 4. Próximos Partidos y Progreso de Fecha */}
@@ -237,14 +236,14 @@ export default function Dashboard() {
           <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-4">
             <div className="flex justify-between items-center mb-2">
               <p className="text-xs font-bold text-gray-600">
-                {todosPronosticados 
+                {todosPronosticados
                   ? '✅ Has pronosticado todos los partidos de la fecha'
                   : `⚠️ Te falta completar partidos de la fecha`}
               </p>
               <span className="text-xs font-black text-blue-800">{pronosticosHechos}/{totalPartidos}</span>
             </div>
             <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden flex">
-              <div 
+              <div
                 className={`h-full transition-all duration-500 ${todosPronosticados ? 'bg-green-500' : 'bg-gradient-to-r from-blue-600 to-blue-400'}`}
                 style={{ width: `${porcentajeProgresoFecha}%` }}
               ></div>
@@ -260,13 +259,13 @@ export default function Dashboard() {
             {partidos.map(partido => {
               const estaPronosticado = !!predicciones[partido.id];
               const fechaCorta = new Date(partido.fecha_inicio).toLocaleDateString('es-CL', { weekday: 'short', day: 'numeric' });
-              
+
               const logoLocalReal = escudosEquipos[partido.local_nombre] || partido.local_logo;
               const logoVisitaReal = escudosEquipos[partido.visita_nombre] || partido.visita_logo;
 
               return (
                 <Link to="/predecir" key={partido.id} className="bg-white border border-gray-100 rounded-xl p-3 flex items-center justify-between shadow-sm hover:border-blue-200 transition">
-                  <div className="flex items-center gap-3 w-3/4">
+                  <div className="flex items-center gap-3 w-3/4 min-w-0">
                     <div className="flex flex-col items-center w-8">
                       {logoLocalReal ? <img src={logoLocalReal} alt="" className="w-6 h-6 object-contain" /> : <span className="text-lg">🛡️</span>}
                     </div>
@@ -274,12 +273,12 @@ export default function Dashboard() {
                     <div className="flex flex-col items-center w-8">
                       {logoVisitaReal ? <img src={logoVisitaReal} alt="" className="w-6 h-6 object-contain" /> : <span className="text-lg">🛡️</span>}
                     </div>
-                    <div className="ml-2 flex flex-col">
+                    <div className="ml-2 flex flex-col min-w-0 flex-1">
                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{fechaCorta}</span>
                       <span className="text-xs font-bold text-gray-800 truncate">{partido.local_nombre} v/s {partido.visita_nombre}</span>
                     </div>
                   </div>
-                  
+
                   {usuarioSession && (
                     <div>
                       {estaPronosticado ? (
