@@ -133,7 +133,7 @@ export default function App() {
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/ranking-grandt" element={<RankingGranDT />} />
-          <Route path="/carga-rendimiento" element={<CargaRendimiento />} />
+          <Route path="/carga-rendimiento" element={<Cargarendimiento />} />
           <Route path="/admin-grandt" element={<AdminGranDT />} /> 
           
           {/* NUEVA RUTA PARA LA ARENA DE TRIVIAS */}
