@@ -11,7 +11,7 @@ import Ranking from './components/Ranking';
 import Login from './components/Login';
 import Admin from './components/Admin';
 import Grandt from './components/Grandt';
-import CargaRendimiento from './components/CargaRendimiento'; 
+import CargaRendimiento from './components/Cargarendimiento'; 
 import AdminGranDT from './components/AdminGranDT'; 
 import RankingGranDT from './components/RankingGranDT'; 
 import SeccionTrivias from "./components/SeccionTrivias"; 
