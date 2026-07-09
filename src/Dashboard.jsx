@@ -209,14 +209,20 @@ export default function Dashboard() {
 
       {/* 3. Botonera Principal (Predicciones y Desafíos) */}
       <div className="px-4 mt-6 grid grid-cols-2 gap-4">
-        <Link to="/predecir" className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-col items-center justify-center gap-2 hover:shadow-md transition hover:border-blue-300 active:scale-95">
-          <span className="text-4xl">🔮</span>
-          <span className="font-bold text-gray-800 text-sm">Predicciones</span>
-        </Link>
+        <Link to="/predecir" className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-row items-center justify-center gap-3 hover:shadow-md transition hover:border-blue-300 active:scale-95">
+  <img src="/ligachilena.png" alt="Liga Chilena" className="w-28 h-28 object-contain shrink-0" />
+  <div className="flex flex-col items-center">
+    <span className="font-bold text-gray-800 text-sm">Predicciones</span>
+    <span className="text-blue-700 text-xs font-bold">Primera División Liga Chilena</span>
+  </div>
+</Link>
         {/* Reemplaza el <button> por este <Link> */}
-<Link to="/desafios" className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-col items-center justify-center gap-2 hover:shadow-md transition hover:border-blue-300 active:scale-95">
-  <span className="text-4xl">🏆</span>
-  <span className="font-bold text-gray-800 text-sm">Desafíos</span>
+<Link to="/desafios" className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-row items-center justify-center gap-3 hover:shadow-md transition hover:border-blue-300 active:scale-95">
+  <span className="text-7xl shrink-0">🏆</span>
+  <div className="flex flex-col items-center">
+    <span className="font-bold text-gray-800 text-sm">Desafíos</span>
+    <span className="text-blue-700 text-xs font-bold text-center">Completa los desafíos para ganar más puntos</span>
+  </div>
 </Link>
       </div>
 
